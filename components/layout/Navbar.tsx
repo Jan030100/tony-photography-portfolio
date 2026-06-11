@@ -17,24 +17,19 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Scroll detection — adds backdrop blur after 40px
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
   return (
@@ -46,36 +41,32 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <motion.div
-          className="flex items-center justify-between h-16 md:h-20 transition-all duration-500"
+          className="flex items-center justify-between h-16 md:h-20"
           animate={{
             backdropFilter: scrolled ? "blur(16px)" : "blur(0px)",
-            backgroundColor: scrolled
-              ? "rgba(10,10,10,0.85)"
-              : "rgba(10,10,10,0)",
-            borderBottom: scrolled
-              ? "1px solid #232323"
-              : "1px solid transparent",
+            backgroundColor: scrolled ? "rgba(10,10,10,0.85)" : "rgba(10,10,10,0)",
+            borderBottom: scrolled ? "1px solid #232323" : "1px solid transparent",
           }}
           style={{
-            marginLeft: "-1.5rem",
-            marginRight: "-1.5rem",
-            paddingLeft: "1.5rem",
-            paddingRight: "1.5rem",
+            marginLeft: "-2rem",
+            marginRight: "-2rem",
+            paddingLeft: "2rem",
+            paddingRight: "2rem",
           }}
         >
-          {/* Logo + wordmark */}
-<Link
-  href="/"
-  className="flex items-center gap-3 group"
-  aria-label="TGF Photography — home"
->
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-  >
-    <Logo size={44} variant="png" />
-  </motion.div>
-</Link>
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center group"
+            aria-label="TGF Photography — home"
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Logo size={100} variant="png" />
+            </motion.div>
+          </Link>
 
           {/* Desktop nav */}
           <nav
@@ -88,7 +79,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative text-sm tracking-widest uppercase group"
+                  className="relative text-sm tracking-widest uppercase group px-3 py-1"
                 >
                   <span
                     className={`transition-colors duration-300 ${
@@ -99,7 +90,6 @@ export default function Navbar() {
                   >
                     {link.label}
                   </span>
-                  {/* Underline indicator */}
                   <motion.span
                     className="absolute -bottom-1 left-0 h-px bg-accent"
                     initial={false}
@@ -136,7 +126,7 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 bg-background flex flex-col justify-center items-center gap-10 md:hidden"
+            className="fixed inset-0 z-40 bg-background flex flex-col justify-center items-center gap-10 md:hidden px-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
